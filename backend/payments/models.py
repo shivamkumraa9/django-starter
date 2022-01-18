@@ -18,7 +18,7 @@ class Plan(models.Model):
 
 
 class Card(models.Model):
-    user = models.ForeignKey('accounts.CustomUser', on_delete=models.CASCADE)
+    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
     stripe_id = models.CharField(max_length=50)
     brand_name = models.CharField(max_length=20)
     last_four = models.IntegerField()
@@ -36,7 +36,7 @@ class Transaction(models.Model):
         ('F', 'Fail')
     ]
     created = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey('accounts.CustomUser', on_delete=models.CASCADE)
+    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
     card = models.ForeignKey(Card, on_delete=models.SET_NULL, blank=True,
                              null=True)
     amount = models.FloatField()

@@ -4,7 +4,7 @@ from django.db import models
 
 class Form(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey("accounts.CustomUser", on_delete=models.CASCADE)
+    user = models.ForeignKey("accounts.User", on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
     redirect_url = models.CharField(max_length=80, blank=True, null=True)
     white_listed_domains = models.CharField(max_length=100, blank=True,
