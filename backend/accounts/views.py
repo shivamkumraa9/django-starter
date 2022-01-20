@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from accounts.serializers import (
     RegisterUserSerializer, PasswordResetSerializer, PasswordSerializer,
-    ChangePasswordSerializer
+    ChangePasswordSerializer, ProfileSerializer
 )
 from accounts.models import User
 
@@ -30,6 +30,23 @@ class Login(APIView):
 class Register(APIView):
     def post(self, request):
         serializer = RegisterUserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"msg": "ok"}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({"errors": serializer.errors},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+
+class Profile(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = ProfileSerializer(request.user)
+        return Response(serializer.data)
+    
+    def post(self, request):
+        serializer = ProfileSerializer(request.user, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({"msg": "ok"}, status=status.HTTP_201_CREATED)

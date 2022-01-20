@@ -13,7 +13,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 @receiver(pre_save, sender=User)
 def attach_subscription(sender, instance, *args, **kwargs):
     """
-    Set the stripe id and set the 'free' plan
+    Set the stripe id and plan to 'free'
     """
     plan = Plan.objects.get(name='free')
     instance.stripe_cus_id = stripe.Customer.create()['id']

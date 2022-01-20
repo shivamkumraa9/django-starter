@@ -9,19 +9,19 @@ def send(receiver, subject, body):
     data = {
         'Messages': [
             {
-            "From": {
-                "Email": settings.EMAIL_FROM,
-                "Name": settings.EMAIL_FROM_NAME
-            },
-            "To": [
-                {
-                "Email": receiver,
-                }
-            ],
-            "Subject": subject,
-            "TextPart": "",
-            "HTMLPart": body,
-            "CustomID": "AppGettingStartedTest"
+                "From": {
+                    "Email": settings.EMAIL_FROM,
+                    "Name": settings.EMAIL_FROM_NAME
+                },
+                "To": [
+                    {
+                        "Email": receiver,
+                    }
+                ],
+                "Subject": subject,
+                "TextPart": "",
+                "HTMLPart": body,
+                "CustomID": "AppGettingStartedTest"
             }
         ]
     }

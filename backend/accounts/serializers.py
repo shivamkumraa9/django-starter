@@ -24,6 +24,16 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         fields = ['email', 'password']
 
 
+class ProfileSerializer(serializers.ModelSerializer):
+    plan = serializers.CharField(source='plan.name', read_only=True)
+
+    class Meta:
+        model = User
+        fields = ['email', 'username', 'first_name', 'last_name',
+                  'is_cancelled', 'next_billing', 'plan']
+        read_only_fields = ['is_cancelled', 'next_billing']
+
+
 class PasswordResetSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
