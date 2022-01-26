@@ -13,19 +13,19 @@ class Action(models.Model):
         abstract = True
 
 
-class Email(Action):
+class EmailAction(Action):
     to = models.CharField(max_length=50)
     subject = models.CharField(max_length=255)
     body = models.TextField()
 
 
 class Webhook(Action):
-    pass
+    username = models.CharField(max_length=255, null=True, blank=True)
+    password = models.CharField(max_length=255, null=True, blank=True)
 
 
 class KeyValue(models.Model):
     TYPE_CHOICES = [
-        ['A', 'Auth Username/Password'],
         ['H', 'Header Name/Value'],
         ['S', 'Static Key/Value']
     ]
@@ -36,5 +36,4 @@ class KeyValue(models.Model):
 
     def __str__(self):
         return "{}:{}".format(self.webhook.name, self.type)
-
 # r'({{.+?}})'

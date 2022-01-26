@@ -14,7 +14,7 @@ class Form(models.Model):
     notification_email = models.EmailField(blank=True, null=True)
 
     def __str__(self):
-        return self.id
+        return self.name
 
 
 class Submission(models.Model):
@@ -24,4 +24,4 @@ class Submission(models.Model):
     content = models.JSONField()
 
     def __str__(self):
-        return self.form.id
+        return self.form.name
