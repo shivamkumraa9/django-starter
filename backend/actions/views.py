@@ -12,6 +12,7 @@ from actions.models import EmailAction, Webhook, KeyValue
 from actions.serializers import (
     EmailSerializer, WebhookSerializer, KeyValueSerializer,
 )
+from actions.permissions import HasWebhookPermissions, HasEmailPermissions
 from forms.models import Form
 
 class GetActionsView(APIView):
@@ -33,7 +34,7 @@ class GetActionsView(APIView):
 
 
 class CreateWebhookView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasWebhookPermissions]
 
     def get_object(self):
         return get_object_or_404(Form, user=self.request.user,
@@ -60,7 +61,7 @@ class CreateWebhookView(APIView):
 
 
 class WebhookView(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasWebhookPermissions]
     queryset = Webhook.objects.all()
     serializer_class = WebhookSerializer
 
@@ -70,7 +71,7 @@ class WebhookView(RetrieveUpdateDestroyAPIView):
 
 
 class CreateKeyValueView(CreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasWebhookPermissions]
     serializer_class = KeyValueSerializer
 
     def perform_create(self, serializer):
@@ -80,7 +81,7 @@ class CreateKeyValueView(CreateAPIView):
 
 
 class KeyValueView(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasWebhookPermissions]
     queryset = KeyValue.objects.all()
     serializer_class = KeyValueSerializer
 
@@ -92,7 +93,7 @@ class KeyValueView(RetrieveUpdateDestroyAPIView):
 
 
 class CreateEmailActionView(CreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasEmailPermissions]
     serializer_class = EmailSerializer
 
     def perform_create(self, serializer):
@@ -102,7 +103,7 @@ class CreateEmailActionView(CreateAPIView):
 
 
 class EmailActionView(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasEmailPermissions]
     queryset = EmailAction.objects.all()
     serializer_class = EmailSerializer
 

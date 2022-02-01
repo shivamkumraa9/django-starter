@@ -1,4 +1,7 @@
+import re
 from django.db import models
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
 
 class Action(models.Model):
@@ -13,10 +16,30 @@ class Action(models.Model):
         abstract = True
 
 
+EMAIL_REGEX = r'({{.+?}})'
+
 class EmailAction(Action):
     to = models.CharField(max_length=50)
     subject = models.CharField(max_length=255)
     body = models.TextField()
+
+    def clean(self):
+        try:
+            validate_email(self.to)
+        except:
+            search = re.search(EMAIL_REGEX, self.to)
+            if search is None:        
+                raise ValidationError({'to': 'To has be a valid email or\
+                                       submission field(eg: {{ email }})'})
+            self.to = search.group(0)[2:-2].strip()
+        return super().clean()
+    
+    def is_to_email(self):
+        try:
+            validate_email(self.to)
+            return True
+        except:
+            return False
 
 
 class Webhook(Action):
@@ -36,4 +59,3 @@ class KeyValue(models.Model):
 
     def __str__(self):
         return "{}:{}".format(self.webhook.name, self.type)
-# r'({{.+?}})'
